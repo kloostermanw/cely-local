@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import os
 import glob
 from importlib import import_module
 from Commands.command import Command
@@ -8,13 +9,14 @@ from Commands.command import Command
 from os.path import dirname, basename, isfile, join
 import glob
 
+baseDir = os.path.dirname(os.path.realpath(__file__))
 
-# arguments provided to cely-local.
+# arguments provided to gizmo.
 args = sys.argv[1:]
 list = []
 blnFound = False
 
-modules = glob.glob(join(dirname(__file__)+"/Commands", "*.py"))
+modules = glob.glob(join(baseDir + "/Commands", "*.py"))
 __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py') and not f.endswith('command.py')]
 
 # loop though every commmand in the Commands directory.
