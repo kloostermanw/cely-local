@@ -11,19 +11,21 @@ class Module(Command):
         self.description = "update command";
 
     def handle(self, args):
-        self.check()
+        blnValue = self.updatesAvailable()
+        if blnValue:
+            print("update available.")
 
-        
     def update(self):
         repo = self.getRepo()
         o = repo.remotes.origin
         o.pull("--rebase")
 
-    def check(self):
+    def updatesAvailable(self):
         repo = self.getRepo()
-        commits = list(repo.iter_commits('HEAD'))
-        count = len(commits)
-        print(count)
+        # git rev-list ${local}..${upstream} --count
+        count = repo.git.rev_list('develop..origin/develop', '--count')
+        
+        return int(count) > 0
 
     def getRepo(self):
         blnVerbose = False
