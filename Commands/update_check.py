@@ -26,8 +26,8 @@ class UpdateCheck(Update):
         count = repo.git.rev_list('develop..origin/develop', '--count')
 
         tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
-        tagList=repo.git.ls_remote("--tags", "orgin")
+        # tagList=repo.git.ls_remote("--tags", "orgin")
         print(tags[-1])
-        print(tagList[-1])
+        # print(tagList[-1])
 
         return int(count) > 0
