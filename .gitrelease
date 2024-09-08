@@ -18,10 +18,10 @@ editor = none
 # The edit will load the following file
 # and this file will commited in the release branch
 # filename = none | CHANGELOG.md
-filename = none
+filename = VERSION
 
 # file_commit_message
-file_commit_message = none
+file_commit_message = New Version
 
 # cmd2 that runs after release is pushed to origin
 cmd2 = none
