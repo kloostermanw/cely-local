@@ -13,7 +13,7 @@ cmd1_arguments = {new_release} > VERSION
 
 # Specify the editor of choice, this will open the editor after the release is created and the cmd1 has run
 # editor vim | nano | none
-editor = none
+editor = vi
 
 # The edit will load the following file
 # and this file will commited in the release branch
