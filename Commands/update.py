@@ -1,4 +1,5 @@
 from Commands.command import Command
+from Lib.base import Base
 
 # pip install gitpython
 import git
@@ -13,7 +14,7 @@ class Update(Command):
     def handle(self, args):
         blnValue = self.updatesAvailable()
         if blnValue:
-            print("update available.")
+            self.update()
 
     def update(self):
         repo = self.getRepo()
@@ -21,17 +22,21 @@ class Update(Command):
         o.pull("--rebase")
 
     def updatesAvailable(self):
-        repo = self.getRepo()
-        # git rev-list ${local}..${upstream} --count
-        count = repo.git.rev_list('develop..origin/develop', '--count')
+        repo_url = 'https://github.com/kloostermanw/gizmo.git'
+        
+        blob = git.cmd.Git().ls_remote(repo_url, sort='-v:refname', tags=True)
+        remoteVersion = blob.split('\n')[0].split('/')[-1];
+        # remove ^{} from the end
+        remoteVersion = Base.rchop(remoteVersion, '^{}')
 
+        with open('VERSION') as f:
+            version = f.readline().strip('\n')
+        
+        if remoteVersion != version:
+            print('local version ' + version + ' new version ' + remoteVersion)
+            return True
 
-        tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
-        print(tags[-1])
-
-
-
-        return int(count) > 0
+        return False
 
     def getRepo(self):
         blnVerbose = False
