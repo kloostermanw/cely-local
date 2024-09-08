@@ -5,7 +5,7 @@ target = main
 
 # cmd1 that runs after the release is created
 # cmd1 = none | vendor/bin/readmegen
-cmd1 = echo
+cmd1 = /bin/echo
 
 # cmd1_arguments belong by cmd1
 # cmd1_arguments = none | --from {current_release} --release {new_release}
