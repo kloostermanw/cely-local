@@ -5,11 +5,11 @@ target = main
 
 # cmd1 that runs after the release is created
 # cmd1 = none | vendor/bin/readmegen
-cmd1 = none
+cmd1 = echo
 
 # cmd1_arguments belong by cmd1
 # cmd1_arguments = none | --from {current_release} --release {new_release}
-cmd1_arguments = --from {current_release} --release {new_release}
+cmd1_arguments = {new_release} > VERSION
 
 # Specify the editor of choice, this will open the editor after the release is created and the cmd1 has run
 # editor vim | nano | none
