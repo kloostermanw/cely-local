@@ -4,11 +4,11 @@ from Commands.command import Command
 import git
 import os
 
-class Update(Command):
+class UpdateCheck(Command):
 
     def configure(self):
-        self.name = "update:now";
-        self.description = "Update this application";
+        self.name = "update:check";
+        self.description = "check for updates";
 
     def handle(self, args):
         blnValue = self.updatesAvailable()

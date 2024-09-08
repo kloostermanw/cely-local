@@ -1,6 +1,6 @@
 from Commands.command import Command
 
-class Module(Command):
+class Wiebe(Command):
 
     def configure(self):
         self.name = "local:wiebe";

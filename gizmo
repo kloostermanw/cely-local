@@ -5,6 +5,7 @@ import os
 import glob
 from importlib import import_module
 from Commands.command import Command
+from Lib.base import Base
 
 from os.path import dirname, basename, isfile, join
 import glob
@@ -21,7 +22,8 @@ __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('_
 
 # loop though every commmand in the Commands directory.
 for mod in __all__:
-    myClass = import_module("Commands." + mod).Module()
+    file = import_module("Commands." + mod)
+    myClass = getattr(file, Base.snakeCaseToPascalCase(mod))()
     strCommand = myClass.getCommand()
     list.append(myClass.getListItem())
 
