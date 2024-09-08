@@ -12,15 +12,16 @@ import glob
 
 baseDir = os.path.dirname(os.path.realpath(__file__))
 
-# arguments provided to gizmo.
+# Arguments provided to gizmo.
 args = sys.argv[1:]
 list = []
 blnFound = False
 
+# Find commands / modules in the Commands directory.
 modules = glob.glob(join(baseDir + "/Commands", "*.py"))
 __all__ = [ basename(f)[:-3] for f in modules if isfile(f) and not f.endswith('__init__.py') and not f.endswith('command.py')]
 
-# loop though every commmand in the Commands directory.
+# Loop though every commmand in the Commands directory.
 for mod in __all__:
     file = import_module("Commands." + mod)
     myClass = getattr(file, Base.snakeCaseToPascalCase(mod))()
@@ -32,10 +33,20 @@ for mod in __all__:
         myClass.handle(args[1:])
         break
 
-
+# If given command is not found or commando is not given show the available commands.
 if (blnFound == False):
+    list = sorted(list, key=lambda x: x['command'])
+    category = ''
+
+    print('Available commands:')
     for item in list:
+        
         strCommand = item["command"]
+        
+        if strCommand.partition(':')[0] != category:
+            category = strCommand.partition(':')[0]
+            print(' ' + category)
+
         strDescription = item["description"]
 
-        print(strCommand.ljust(20) + strDescription)
+        print('  ' + strCommand.ljust(20) + strDescription)
