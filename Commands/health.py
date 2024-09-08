@@ -1,6 +1,6 @@
 from Commands.command import Command
 
-class Module(Command):
+class Health(Command):
 
     def configure(self):
         self.name = "local:health";

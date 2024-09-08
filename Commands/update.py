@@ -4,11 +4,11 @@ from Commands.command import Command
 import git
 import os
 
-class Module(Command):
+class Update(Command):
 
     def configure(self):
-        self.name = "main:update";
-        self.description = "update command";
+        self.name = "update:now";
+        self.description = "Update this application";
 
     def handle(self, args):
         blnValue = self.updatesAvailable()
@@ -24,7 +24,13 @@ class Module(Command):
         repo = self.getRepo()
         # git rev-list ${local}..${upstream} --count
         count = repo.git.rev_list('develop..origin/develop', '--count')
-        
+
+
+        tags = sorted(repo.tags, key=lambda t: t.commit.committed_datetime)
+        print(tags[-1])
+
+
+
         return int(count) > 0
 
     def getRepo(self):
