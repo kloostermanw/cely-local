@@ -6,6 +6,7 @@ import glob
 from importlib import import_module
 from Commands.command import Command
 from Lib.base import Base
+from Lib.termcolor import colored, cprint
 
 from os.path import dirname, basename, isfile, join
 import glob
@@ -38,15 +39,15 @@ if (blnFound == False):
     list = sorted(list, key=lambda x: x['command'])
     category = ''
 
-    print('Available commands:')
+    cprint('Available commands:', 'green')
     for item in list:
         
         strCommand = item["command"]
         
         if strCommand.partition(':')[0] != category:
             category = strCommand.partition(':')[0]
-            print(' ' + category)
+            print(' ' + colored(category, 'yellow'))
 
         strDescription = item["description"]
 
-        print('  ' + strCommand.ljust(20) + strDescription)
+        print('  ' + colored(strCommand.ljust(20), 'green') + strDescription)
