@@ -7,7 +7,7 @@ class UpdateCheck(Update):
 
     def configure(self):
         self.name = "update:check";
-        self.description = "check for updates";
+        self.description = "Check for updates on Gizmo";
 
     def handle(self, args):
         blnValue = self.updatesAvailable()

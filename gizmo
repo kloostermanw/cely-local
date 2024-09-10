@@ -38,6 +38,8 @@ for mod in __all__:
 if (blnFound == False):
     list = sorted(list, key=lambda x: x['command'])
     category = ''
+    version = Base.getVersion()
+    print('Gizmo ' + colored(version, 'green') + '\n')
 
     cprint('Available commands:', 'green')
     for item in list:

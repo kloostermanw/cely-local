@@ -18,3 +18,11 @@ class Base():
     @staticmethod
     def lchop(str, prefix):
         return str.lstrip(prefix)
+    
+    @staticmethod
+    def getVersion():
+        version = ''
+        with open('VERSION') as f:
+            version = f.readline().strip('\n')
+        
+        return version
