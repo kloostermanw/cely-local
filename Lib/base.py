@@ -1,4 +1,5 @@
 import string
+import os
 
 class Base():
 
@@ -21,8 +22,9 @@ class Base():
     
     @staticmethod
     def getVersion():
+        baseDir = os.path.dirname(os.path.realpath(__file__))
         version = ''
-        with open('VERSION') as f:
+        with open(baseDir + '/../VERSION') as f:
             version = f.readline().strip('\n')
         
         return version

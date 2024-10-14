@@ -25,13 +25,18 @@ class Command:
     def getConfig(self):
         config = configparser.ConfigParser();
         config.sections();
-        file1 = 'config/' + self.config + '/conf.default';
-        file2 = 'config/' + self.config + '/conf';
+        
+        baseDir = os.path.dirname(os.path.realpath(__file__));
+        
+        file1 = baseDir + '/../config/' + self.config + '/conf.default';
+        file2 = baseDir + '/../config/' + self.config + '/conf';
+
+        if (not os.path.isfile(file1)):
+            print('config does not exist ', file1)
 
         if (os.path.isfile(file2)):
             config.read([file1, file2])
-            print('exist')
         else:
             config.read(file1);
-            print('not exist')
+
         return config;
