@@ -1,0 +1,6 @@
+# This file will be overwritten with an update
+# create conf for your own settings.
+#
+[DEFAULT]
+token = ''
+org = 'celery-payroll'
