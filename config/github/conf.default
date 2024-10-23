@@ -3,4 +3,4 @@
 #
 [DEFAULT]
 token = ''
-org = 'celery-payroll'
+org = ''

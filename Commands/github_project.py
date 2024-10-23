@@ -32,21 +32,64 @@ class GithubProject(Command):
         # print(node_id)
 
         # https://docs.github.com/en/graphql/reference/objects#projectv2item
+        # https://gist.github.com/richkuz/e8842fce354edbd4e12dcbfa9ca40ff6
         
         
-        query = ('query'
-                 '{organization(login: \"' + org + '\")'
-                    '{projectV2(number: ' + '94' + '){id, items {nodes {id, content} }}}'
-                '}')
+        # query = ('query'
+        #          '{organization(login: \"' + org + '\")'
+        #             '{projectV2(number: ' + '94' + '){id, items {nodes {id, content} }}}'
+        #         '}')
 
-
-        request = requests.post('https://api.github.com/graphql',
-                                json={'query': query},
-                                headers=self.headers)
+        # query = ('query'
+        #          '{organization(login: \"' + org + '\")'
+        #             '{projectV2(number: ' + '94' + '){id, workflow {number} }}'
+        #         '}')
         
-        print(request.json())
 
 
+
+
+
+        # request = requests.post('https://api.github.com/graphql',
+        #                         json={'query': query},
+        #                         headers=self.headers)
+        
+        # print(request.json())
+
+        query = """
+            query getIssueDetailsOnProject {
+                node (id: "PVT_kwDOAIFBsM4Aadny") {
+                    ... on ProjectV2 {
+                    number
+                    title
+                    shortDescription
+                    items {
+                        totalCount
+                        
+                        nodes {
+                        type
+                        databaseId
+                        content {
+                            ... on Issue {
+                            id
+                            number
+                            state
+                            }
+                        }
+                        fieldValueByName( name: "Status") {
+                            ... on ProjectV2ItemFieldSingleSelectValue {
+                            status: name
+                            }
+                        }
+                        }
+                    }
+                    }
+                }
+                }
+        """
+        variables = {"projectId": '94'}
+        a = self.send_query(query, variables)
+        print(a)
     
     def get_project_node_id(self, project_id, organization_name):
         query = 'query{organization(login: \"' + organization_name + '\") {projectV2(number: ' + project_id + '){id}}}'
@@ -54,3 +97,12 @@ class GithubProject(Command):
                                 json={'query': query},
                                 headers=self.headers)
         return request.json()['data']['organization']['projectV2']['id']
+    
+
+
+    def send_query(self, query, variables=None):
+        payload = {"query": query, "variables": variables}
+        response = requests.post('https://api.github.com/graphql', json=payload, headers=self.headers)
+        response.raise_for_status()
+
+        return response.json()
