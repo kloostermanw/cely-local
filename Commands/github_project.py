@@ -31,19 +31,21 @@ class GithubProject(Command):
         # node_id = self.get_project_node_id('94' ,org)
         # print(node_id)
 
-        # https://docs.github.com/en/graphql/reference/objects#projectv2item
+        #  projectv2:  https://docs.github.com/en/graphql/reference/objects#projectv2
+        #  - items -> https://docs.github.com/en/graphql/reference/objects#projectv2itemconnection
+        #
+
+        #  projectv2itemconnection
+        #  - node -> https://docs.github.com/en/graphql/reference/objects#projectv2item
+
+        #  projectv2item
+        #  - content -> (DraftIssue, Issue, PullRequest)
+
+
+
         # https://gist.github.com/richkuz/e8842fce354edbd4e12dcbfa9ca40ff6
         
-        
-        # query = ('query'
-        #          '{organization(login: \"' + org + '\")'
-        #             '{projectV2(number: ' + '94' + '){id, items {nodes {id, content} }}}'
-        #         '}')
-
-        # query = ('query'
-        #          '{organization(login: \"' + org + '\")'
-        #             '{projectV2(number: ' + '94' + '){id, workflow {number} }}'
-        #         '}')
+        # https://github.com/longhorn/longhorn/blob/c0235113894a5baa6dbcf871caa9d54f1ea5d311/.github/workflows/scan-and-notify-testing-items.py#L134
         
 
 
@@ -60,32 +62,71 @@ class GithubProject(Command):
             query getIssueDetailsOnProject {
                 node (id: "PVT_kwDOAIFBsM4Aadny") {
                     ... on ProjectV2 {
-                    number
-                    title
-                    shortDescription
-                    items {
-                        totalCount
-                        
-                        nodes {
-                        type
-                        databaseId
-                        content {
-                            ... on Issue {
-                            id
-                            number
-                            state
+                        number
+                        title
+                        shortDescription
+                        items {
+                            totalCount
+                            
+                            nodes {
+                                type
+                                databaseId
+                                content {
+                                    ... on Issue {
+                                    id
+                                    number
+                                    state
+                                    }
+                                }
+                                status: fieldValueByName( name: "Status") {
+                                    ... on ProjectV2ItemFieldSingleSelectValue {
+                                        status: name
+                                    }
+                                }
+
+                                # sprint: fieldValueByName(name: "Sprint") {
+                                #     ... on ProjectV2ItemFieldIterationValue {
+                                #         title
+                                #         startDate
+                                #     }
+                                # }
+
+                                
+                                # fieldValues(first: 10) {
+                                #     nodes {
+                                #         ... on ProjectV2ItemFieldIterationValue {
+                                #             title
+                                #             startDate
+                                #             duration
+                                #             field {
+                                #                 ... on ProjectV2IterationField {
+                                #                 name
+                                #                 }
+                                #             }
+                                #         }
+                                #     }
+                                # }
+
+                                fieldValues(first: 30) {
+                                    nodes {
+                                        __typename
+                                        ... on ProjectV2ItemFieldDateValue {
+                                            date
+                                    
+                                        }
+
+                                        ... on ProjectV2ItemFieldIterationValue {
+                                            title
+                                            iterationId
+                                            startDate
+                                        }
+                                    }
+                                }
                             }
                         }
-                        fieldValueByName( name: "Status") {
-                            ... on ProjectV2ItemFieldSingleSelectValue {
-                            status: name
-                            }
-                        }
-                        }
-                    }
                     }
                 }
-                }
+            }
         """
         variables = {"projectId": '94'}
         a = self.send_query(query, variables)
