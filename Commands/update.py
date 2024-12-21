@@ -9,7 +9,7 @@ class Update(Command):
 
     def configure(self):
         self.name = "update:now";
-        self.description = "Update this application";
+        self.description = "Update Gizmo";
 
     def handle(self, args):
         blnValue = self.updatesAvailable()
@@ -29,8 +29,7 @@ class Update(Command):
         # remove ^{} from the end
         remoteVersion = Base.rchop(remoteVersion, '^{}')
 
-        with open('VERSION') as f:
-            version = f.readline().strip('\n')
+        version = Base.getVersion()
         
         if remoteVersion != version:
             print('local version ' + version + ' new version ' + remoteVersion)

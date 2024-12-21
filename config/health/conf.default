@@ -1,0 +1,11 @@
+# This file will be overwritten with an update
+# create conf for your own settings.
+#
+[DEFAULT]
+list = web-app,web-api,avatar,my,developers,cp
+web-app = ~/repos/celery-web-app
+web-api = ~/repos/celery-web-api
+avatar = ~/repos/celery-avatar
+my = ~/repos/celery-my
+developers = ~/repos/celery-developers-website
+cp = ~/repos/celery-control-panel
