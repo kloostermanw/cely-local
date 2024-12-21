@@ -5,7 +5,7 @@ import git
 class Health(Command):
 
     def configure(self):
-        self.name = "local:health";
+        self.name = "celery:health";
         self.description = "check the health of the current celery environment.";
         self.config = "health";
 

@@ -52,4 +52,4 @@ if (blnFound == False):
 
         strDescription = item["description"]
 
-        print('  ' + colored(strCommand.ljust(20), 'green') + strDescription)
+        print('  ' + colored(strCommand.ljust(25), 'green') + strDescription)

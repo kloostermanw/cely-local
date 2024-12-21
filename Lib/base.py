@@ -7,7 +7,6 @@ class Base():
     def snakeCaseToPascalCase(test_str):
         return string.capwords(test_str.replace("_", " ")).replace(" ", "")
 
-    
     # removes suffix from the end of string s
     @staticmethod
     def rchop(s, suffix):
