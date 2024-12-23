@@ -1,5 +1,8 @@
 import configparser
 import os.path
+from subprocess import run
+from subprocess import PIPE, STDOUT
+from subprocess import Popen
 
 class Command:
     def __init__(self):
@@ -40,3 +43,22 @@ class Command:
             config.read(file1);
 
         return config;
+
+    def runCommand(self, strCmd, strArgs):
+        arrCmdAndArgs = []
+        
+        if type(strArgs) is list:
+            arrCmdAndArgs = strArgs
+        else:
+            if strArgs != 'none':
+                arrCmdAndArgs = strArgs.split()
+
+        arrCmdAndArgs.insert(0, strCmd)
+        if strCmd != 'none':
+            result = run(arrCmdAndArgs,
+                            shell=False,
+                            stdout=PIPE,
+                            stderr=PIPE,
+                            check=False)
+
+            return result.stderr.decode("utf-8")
